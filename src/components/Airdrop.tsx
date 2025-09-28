@@ -1,22 +1,36 @@
-import { useConnection, useWallet } from "@solana/wallet-adapter-react"
+import { useConnection, useWallet } from "@solana/wallet-adapter-react";
+import { useState } from "react";
 
 export function Airdrop() {
-const wallet = useWallet();
-const {connection} = useConnection()
+  const wallet = useWallet();
+  const { connection } = useConnection();
+  const [amount, setAmount] = useState("");
 
-async function SendRequest() {
+  async function SendRequest() {
     if (!wallet.publicKey) {
-        alert("Wallet not connected!");
-        return;
+      alert("Wallet not connected!");
+      return;
     }
-    await connection.requestAirdrop(wallet.publicKey, 1000000000);
-    alert("airdropped sol");
-}
 
-    return <div>
-        hi from air drop
+    const sol = Number(amount);
+    if (!sol || sol <= 0) {
+      alert("Enter valid amount");
+      return;
+    }
 
-<input type="text" placeholder="Amount" />
-<button onClick={SendRequest}>send AirDrop</button>
+    await connection.requestAirdrop(wallet.publicKey, sol * 1_000_000_000);
+    alert(`Airdropped ${sol} SOL`);
+  }
+
+  return (
+    <div>
+      <input
+        type="number"
+        placeholder="Amount in SOL"
+        value={amount}
+        onChange={(e) => setAmount(e.target.value)}
+      />
+      <button onClick={SendRequest}>Airdrop</button>
     </div>
+  );
 }
