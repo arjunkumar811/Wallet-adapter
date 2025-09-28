@@ -1,5 +1,6 @@
 import { useConnection, useWallet } from "@solana/wallet-adapter-react";
 import { useState } from "react";
+import { ShowSolBalance } from "./ShowBalance";
 
 export function Airdrop() {
   const wallet = useWallet();
@@ -31,6 +32,7 @@ export function Airdrop() {
         onChange={(e) => setAmount(e.target.value)}
       />
       <button onClick={SendRequest}>Airdrop</button>
+      <ShowSolBalance />
     </div>
   );
 }
