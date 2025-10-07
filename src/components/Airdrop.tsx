@@ -40,3 +40,4 @@ export function Airdrop() {
     </div>
   );
 }
+
